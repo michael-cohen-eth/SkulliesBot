@@ -1,7 +1,8 @@
-# BotPitchfork, a Pitchfork Twitter bot
+# SkullieBot, an OpenSea sales Twitter bot for ProbCause's Skullies GMI project
 
-This repo contains the code running the [BotPitchfork](https://twitter.com/BotPitchfork) Twitter bot, which tweets Pitchfork's best new music - tracks, albums and reissues - as soon as it's announced. 
-The bot is built using [Dashblock](https://dashblock.com) and [Tweepy](http://tweepy.org).
+This repo contains the code running the [BotPitchfork](https://twitter.com/BotPitchfork) Twitter bot, which tweets whenever new sales are generated for ProbCause's Skullies GMI NFT collection. Inspired **heavily** by [BotPitchfork](https://twitter.com/BotPitchfork)
+
+The bot is built using the [OpenSea API](https://docs.opensea.io/reference) and [Tweepy](http://tweepy.org).
 Everything is hosted on Heroku, with a Flask app.
 
 ## Description
