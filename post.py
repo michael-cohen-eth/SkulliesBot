@@ -31,7 +31,7 @@ def get_asset_events():
 	return serialized
 
 def get_event_string(event: Event):
-	return f"{event.asset.name} was summoned for {event.total_price} {event.payment_token.symbol} by {event.winner_account.address} 🎲 💀 🎲 #skulliesgmi"
+	return f"{event.asset.name} was summoned for {event.total_price / pow(10, event.payment_token.decimals)} {event.payment_token.symbol} by {event.winner_account.address} 🎲 💀 🎲 #skulliesgmi"
 
 # Authenticate to Twitter
 # auth = tweepy.OAuthHandler("XXXX", "XXXX")

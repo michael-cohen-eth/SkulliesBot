@@ -21,6 +21,7 @@ class Account(BaseModel):
 class PaymentToken(BaseModel):
 	id: Optional[int]
 	symbol: Optional[str]
+	decimals: Optional[int]
 class Event(BaseModel):
 	id: Optional[int]
 	asset: Asset
