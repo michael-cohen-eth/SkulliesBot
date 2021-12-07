@@ -1,6 +1,6 @@
 import os
 import requests
-from .post import get_asset_events
+from post import get_asset_events
 
 from flask import Flask, render_template, request, redirect, url_for
 
