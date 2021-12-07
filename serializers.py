@@ -15,6 +15,9 @@ class Asset(BaseModel):
 	token_id: Optional[str]
 	collection: Collection
 
+class Account(BaseModel):
+	id: Optional[int]
+	address: Optional[str]
 class PaymentToken(BaseModel):
 	id: Optional[int]
 	symbol: Optional[str]
@@ -25,4 +28,5 @@ class Event(BaseModel):
 	quantity: Optional[str]
 	payment_token: PaymentToken
 	total_price: Optional[int]
+	to_account: Optional[Account]
 	# transaction: transaction
