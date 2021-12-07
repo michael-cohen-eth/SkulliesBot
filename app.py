@@ -14,6 +14,7 @@ def index():
 @app.route('/do', methods=['GET'])
 def index_post():
     get_asset_events()
+    return render_template('do.html')
 
 if __name__ == '__main__': 
   port = int(os.environ.get('PORT', 5000))
