@@ -1,31 +1,13 @@
 import os
-import requests
-from post import get_asset_events
-
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, url_for
 import oauth2 as oauth
 import urllib.request
 import urllib.parse
 import urllib.error
 import json
+from post import get_asset_events
 
 app = Flask(__name__)
-
-# @app.route('/', methods=['GET'])
-# def index():
-#     return render_template('index.html')
-
-
-@app.route('/do', methods=['GET'])
-def index_post():
-    get_asset_events()
-    return render_template('do.html')
-
-if __name__ == '__main__': 
-  port = int(os.environ.get('PORT', 5000))
-  app.run(host='0.0.0.0', port=port, debug=True)
-
-
 
 app.debug = False
 
@@ -45,9 +27,6 @@ app.config['APP_CONSUMER_SECRET'] = os.getenv(
 # APP_CONSUMER_KEY = 'API_Key_from_Twitter'
 # APP_CONSUMER_SECRET = 'API_Secret_from_Twitter'
 app.config.from_pyfile('config.cfg', silent=True)
-
-print(os.getenv('APP_CONSUMER_KEY'))
-print(os.getenv('APP_CONSUMER_SECRET'))
 
 oauth_store = {}
 
@@ -151,6 +130,11 @@ def callback():
     return render_template('callback-success.html', screen_name=screen_name, user_id=user_id, name=name,
                            friends_count=friends_count, statuses_count=statuses_count, followers_count=followers_count, access_token_url=access_token_url)
 
+
+@app.route('/do', methods=['GET'])
+def index_post():
+    get_asset_events()
+    return render_template('do.html')
 
 @app.errorhandler(500)
 def internal_server_error(e):
