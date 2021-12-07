@@ -26,7 +26,7 @@ app.config['APP_CONSUMER_SECRET'] = os.getenv(
 # config.cfg should look like:
 # APP_CONSUMER_KEY = 'API_Key_from_Twitter'
 # APP_CONSUMER_SECRET = 'API_Secret_from_Twitter'
-app.config.from_pyfile('config.cfg', silent=True)
+# app.config.from_pyfile('config.cfg', silent=True)
 
 oauth_store = {}
 
