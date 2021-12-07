@@ -28,7 +28,7 @@ def get_asset_events():
 	for event in serialized:
 		print(event)
 	# print(f"event info: {event}")
-	return asset_events
+	return serialized
 
 
 # Authenticate to Twitter
