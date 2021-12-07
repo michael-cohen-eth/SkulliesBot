@@ -5,7 +5,7 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import json
-from post import get_asset_events
+from post import get_asset_events, get_event_string
 
 app = Flask(__name__)
 
@@ -136,8 +136,9 @@ def callback():
 @app.route('/do', methods=['GET'])
 def index_post():
     events = get_asset_events()
+    event_strings = [get_event_string(event) for event in events]
     return render_template('do.html', screen_name=screen_name, user_id=user_id, name=name,
-                           events=events, access_token_url=access_token_url)
+                           events=event_strings, access_token_url=access_token_url)
 
 @app.errorhandler(500)
 def internal_server_error(e):
