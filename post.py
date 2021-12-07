@@ -23,11 +23,11 @@ def get_asset_events():
 	serialized = []
 	for event in asset_events:
 		serialized.append(Event.parse_obj(event))
+		print(f"raw: {event}")
 	# events = any(event for event in serialized if event.asset.name == "Skullies GMI")
 	# events = any(event for event in serialized)
 	for event in serialized:
 		print(event)
-	# print(f"event info: {event}")
 	return serialized
 
 def get_event_string(event: Event):
