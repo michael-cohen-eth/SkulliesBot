@@ -1,1 +1,1 @@
-web: gunicorn skully-twitter-bot:app
+web: gunicorn app:app
