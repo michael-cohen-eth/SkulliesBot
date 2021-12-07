@@ -17,7 +17,7 @@ def index_post():
     return render_template('do.html')
 
 @app.route('/callback', methods=['GET'])
-def index_post(oauth_token, oauth_token_secret, oauth_callback_confirmed):
+def index_callback(oauth_token, oauth_token_secret, oauth_callback_confirmed):
     print(f"oauth_token: {oauth_token}")
     print(f"oauth_token_secret: {oauth_token_secret}")
     print(f"oauth_callback_confirmed: {oauth_callback_confirmed}")
