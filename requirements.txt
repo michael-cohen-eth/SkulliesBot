@@ -5,5 +5,5 @@ Werkzeug==0.11.11
 click==6.6
 gunicorn==19.6.0
 itsdangerous==0.24
-requests
-tweepy
+requests==2.26.0
+tweepy==4.4.0

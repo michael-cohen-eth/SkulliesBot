@@ -16,6 +16,13 @@ def index_post():
     get_asset_events()
     return render_template('do.html')
 
+@app.route('/callback', methods=['GET'])
+def index_post(oauth_token, oauth_token_secret, oauth_callback_confirmed):
+    print(f"oauth_token: {oauth_token}")
+    print(f"oauth_token_secret: {oauth_token_secret}")
+    print(f"oauth_callback_confirmed: {oauth_callback_confirmed}")
+    return render_template('callback.html')
+
 if __name__ == '__main__': 
   port = int(os.environ.get('PORT', 5000))
   app.run(host='0.0.0.0', port=port, debug=True)

@@ -3,14 +3,14 @@ import tweepy
 import requests
 import datetime
 import os
-
+from serializers import Event, Asset
 
 def get_env_key(key) -> Optional[str]:
 	return os.environ[key] if key in os.environ else None
 
 def get_asset_events():
-	url = "https://api.opensea.io/api/v1/events?collection_slug=skulliesgmievent_type=successful&only_opensea=false&offset=0&limit=60"
-
+	# url = "https://api.opensea.io/api/v1/events?collection_slug=mutant-ape-yacht-club&event_type=successful&only_opensea=false&offset=0&limit=60"
+	url = "https://api.opensea.io/api/v1/events?collection_slug=skulliesgmi&event_type=successful&only_opensea=false&offset=0&limit=60"
 	headers = {
 		"Accept": "application/json",
 		"X-API-KEY": f"{get_env_key('OS_API_KEY')}"
@@ -20,8 +20,14 @@ def get_asset_events():
 	events = response.json()
 	# print(events)
 	asset_events = events['asset_events']
+	serialized = []
 	for event in asset_events:
-		print(f"event info: {event}")
+		serialized.append(Event.parse_obj(event))
+	# events = any(event for event in serialized if event.asset.name == "Skullies GMI")
+	# events = any(event for event in serialized)
+	for event in serialized:
+		print(event)
+	# print(f"event info: {event}")
 	return asset_events
 
 
