@@ -11,9 +11,9 @@ import json
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('index.html')
+# @app.route('/', methods=['GET'])
+# def index():
+#     return render_template('index.html')
 
 
 @app.route('/do', methods=['GET'])
