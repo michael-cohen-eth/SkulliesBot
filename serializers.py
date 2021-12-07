@@ -28,5 +28,5 @@ class Event(BaseModel):
 	quantity: Optional[str]
 	payment_token: PaymentToken
 	total_price: Optional[int]
-	to_account: Optional[Account]
+	winner_account: Optional[Account]
 	# transaction: transaction
