@@ -21,3 +21,15 @@ There you will also find instructions on how to deploy to Heroku.
 To enable constant monitoring and automated tweeting you need to create a cron job in Heroku, and this can be done using the [Heroku Scheduler](https://addons-sso.heroku.com/apps/d1734328-bd3f-484a-ac91-2e1aa2627c80/addons/1370e47f-2612-4cae-a639-19fc0527d03c) add on, connected to the **post.py** script.
 
 
+
+## Handoff
+
+Before handing off, will need to provide ProbCause with the following:
+- Access to Twitter API acct
+- Access to Heroku acct
+- Access to this repo codebase
+
+Will need to switch out the following info:
+- CC info on heroku
+- Switch OS key with his dedicated key
+

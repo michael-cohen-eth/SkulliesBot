@@ -1,4 +1,6 @@
 import os
+import requests
+from .post import get_asset_events
 
 from flask import Flask, render_template, request, redirect, url_for
 
@@ -7,6 +9,11 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
+
+
+@app.route('/do', methods=['GET'])
+def index_post():
+    get_asset_events()
 
 if __name__ == '__main__': 
   port = int(os.environ.get('PORT', 5000))
