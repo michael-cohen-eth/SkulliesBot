@@ -20,7 +20,7 @@ def get_twitter():
 		raise "No auth set, can't tweet"
 
 	# Authenticate to Twitter
-	auth = tweepy.OAuthHandler(get_env_key("APP_CONSUMER_KEY"), get_env_key("APP_CONSUMER_SECRET"))
+	auth = tweepy.OAuthHandler(get_env_key("TWAUTH_APP_CONSUMER_KEY"), get_env_key("TWAUTH_APP_CONSUMER_SECRET"))
 	auth.set_access_token(token, secret)
 
 	# Create API object
