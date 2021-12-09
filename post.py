@@ -1,22 +1,19 @@
 from typing import Optional
 import tweepy
 import requests
-from datetime import datetime
-import os
 from auth import get_twitter
 from serializers import Event
-from utils import get_env_key, get_cache, set_cache
-import time
+from utils import get_cache_int, get_env_key, set_cache
 
 
 LAST_TIMESTAMP = "last_tweeted_event"
 
-def get_asset_events(since: Optional[datetime] = None):
+def get_asset_events(since: Optional[int] = None):
 	# url = "https://api.opensea.io/api/v1/events?collection_slug=mutant-ape-yacht-club&event_type=successful&only_opensea=false&offset=0&limit=60"
 
 	url = "https://api.opensea.io/api/v1/events?collection_slug=skulliesgmi&event_type=successful&only_opensea=false&offset=0&limit=60"
 	if since:
-		occured_after = f"&occurred_after={time.mktime(since.timetuple())}"
+		occured_after = f"&occurred_after={since}"
 		url += occured_after
 	headers = {
 		"Accept": "application/json",
@@ -38,24 +35,33 @@ def get_asset_events(since: Optional[datetime] = None):
 	return serialized
 
 def get_event_string(event: Event):
-	return f"{event.asset.name} was summoned for {event.total_price / pow(10, event.payment_token.decimals)} {event.payment_token.symbol} by {event.winner_account.address} 🎲 💀 🎲 #skulliesgmi"
+	return f"{event.asset.name} was summoned for {event.total_price / pow(10, event.payment_token.decimals)} {event.payment_token.symbol} by {event.winner_account.address} 🎲 💀 🎲 #skulliesgmi {event.asset.permalink}"
 
 
-def get_last_tweeted_event() -> datetime:
-	timestamp_str = get_cache(LAST_TIMESTAMP)
-	return datetime.fromisoformat(timestamp_str) if timestamp_str else None
+def get_last_tweeted_event() -> int:
+	return get_cache_int(LAST_TIMESTAMP)
 
 def set_last_tweeted_event(event: Event):
-	set_cache(LAST_TIMESTAMP, str(event.transaction.timestamp))
+	current = get_last_tweeted_event()
+	if current and current > event.transaction.time_occurred:
+		print("Currently stored timestamp is ahead of this event. Not updating.")
+		return
+	print(f"Setting {LAST_TIMESTAMP} cache to {str(event.transaction.time_occurred)}")
+	set_cache(LAST_TIMESTAMP, str(event.transaction.time_occurred))
 
 
 def post_tweet(event: Event):
 	twitter = get_twitter()
 	try:
 		# Create a tweet
-		twitter.update_status(get_event_string(event))
+		if get_env_key("TESTING", "true") == "true":
+			print("Not posting tweet. Testing mode.")
+		else:
+			print(f"Posting tweet: {get_event_string(event)}")
+			twitter.update_status(get_event_string(event))
+		
 		print("Tweet posted!")
 		set_last_tweeted_event(event)
-	except tweepy.TweepError:
+	except tweepy.TweepyException:
 		print('No update.')
 
