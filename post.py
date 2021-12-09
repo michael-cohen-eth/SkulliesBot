@@ -32,6 +32,8 @@ def get_asset_events(since: Optional[int] = None):
 	# events = any(event for event in serialized)
 	# for event in serialized:
 	# 	print(event)
+	serialized.sort(key=lambda x: x.transaction.time_occurred)
+
 	return serialized
 
 def get_event_string(event: Event):
