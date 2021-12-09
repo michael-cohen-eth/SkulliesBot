@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 import tweepy
 import requests
 from auth import get_twitter
@@ -65,3 +65,11 @@ def post_tweet(event: Event):
 	except tweepy.TweepyException:
 		print('No update.')
 
+
+def do_tweets() -> List[str]:
+	since = get_last_tweeted_event()
+	events = get_asset_events(since=since)
+	event_strings = [get_event_string(event) for event in events]
+	for event in events:
+		post_tweet(event)
+	return event_strings

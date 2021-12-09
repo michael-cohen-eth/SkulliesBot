@@ -1,3 +1,4 @@
+APScheduler==3.8.1
 certifi==2021.10.8
 charset-normalizer==2.0.9
 click==6.6
@@ -13,11 +14,16 @@ oauth2==1.9.0.post1
 oauthlib==3.1.1
 pydantic==1.8.2
 pyparsing==3.0.6
+pytz==2021.3
+pytz-deprecation-shim==0.1.0.post0
 redis==4.0.2
 requests==2.26.0
 requests-oauthlib==1.3.0
+six==1.16.0
 tweepy==4.4.0
 typing_extensions==4.0.1
+tzdata==2021.5
+tzlocal==4.1
 urllib3==1.26.7
 Werkzeug==0.11.11
 wrapt==1.13.3

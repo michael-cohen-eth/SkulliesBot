@@ -17,6 +17,7 @@ pydantic = "==1.8.2"
 oauth2 = "*"
 httplib2 = "*"
 redis = "==4.0.2"
+APScheduler = "==3.8.1"
 
 
 [dev-packages]
