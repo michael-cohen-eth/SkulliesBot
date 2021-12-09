@@ -54,6 +54,8 @@ def post_tweet(event: Event):
 	try:
 		# Create a tweet
 		twitter.update_status(get_event_string(event))
+		print("Tweet posted!")
+		set_last_tweeted_event(event)
 	except tweepy.TweepError:
 		print('No update.')
 
