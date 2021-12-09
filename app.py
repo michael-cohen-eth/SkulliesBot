@@ -5,7 +5,8 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import json
-from post import get_asset_events, get_event_string
+from auth import set_auth
+from post import get_asset_events, get_event_string, get_last_tweeted_event, post_tweet
 
 app = Flask(__name__)
 
@@ -107,6 +108,8 @@ def callback():
     real_oauth_token = access_token[b'oauth_token'].decode('utf-8')
     real_oauth_token_secret = access_token[b'oauth_token_secret'].decode(
         'utf-8')
+    
+    set_auth(real_oauth_token, real_oauth_token_secret)
 
     # Call api.twitter.com/1.1/users/show.json?user_id={user_id}
     real_token = oauth.Token(real_oauth_token, real_oauth_token_secret)
@@ -134,9 +137,13 @@ def callback():
 
 
 @app.route('/do', methods=['GET'])
-def index_post():
-    events = get_asset_events()
+def do():
+    since = get_last_tweeted_event()
+    events = get_asset_events(since=since)
     event_strings = [get_event_string(event) for event in events]
+    for event in events:
+        post_tweet(event)
+
     return render_template('do.html', screen_name=screen_name, user_id=user_id, name=name,
                            events=event_strings, access_token_url=access_token_url)
 

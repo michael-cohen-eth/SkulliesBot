@@ -1,16 +1,23 @@
 from typing import Optional
 import tweepy
 import requests
-import datetime
+from datetime import datetime
 import os
+from auth import get_auth, get_twitter
 from serializers import Event, Asset
+from utils import get_env_key, get_cache, set_cache
+import time
 
-def get_env_key(key) -> Optional[str]:
-	return os.environ[key] if key in os.environ else None
 
-def get_asset_events():
+LAST_TIMESTAMP = "last_tweeted_event"
+
+def get_asset_events(since: Optional[datetime] = None):
 	# url = "https://api.opensea.io/api/v1/events?collection_slug=mutant-ape-yacht-club&event_type=successful&only_opensea=false&offset=0&limit=60"
+
 	url = "https://api.opensea.io/api/v1/events?collection_slug=skulliesgmi&event_type=successful&only_opensea=false&offset=0&limit=60"
+	if since:
+		occured_after = f"&occurred_after={time.mktime(since.timetuple())}"
+		url += occured_after
 	headers = {
 		"Accept": "application/json",
 		"X-API-KEY": f"{get_env_key('OS_API_KEY')}"
@@ -23,38 +30,30 @@ def get_asset_events():
 	serialized = []
 	for event in asset_events:
 		serialized.append(Event.parse_obj(event))
-		print(f"raw: {event}")
+		# print(f"raw: {event}")
 	# events = any(event for event in serialized if event.asset.name == "Skullies GMI")
 	# events = any(event for event in serialized)
-	for event in serialized:
-		print(event)
+	# for event in serialized:
+	# 	print(event)
 	return serialized
 
 def get_event_string(event: Event):
-	return f"{event.asset.name} was summoned for {event.total_price / pow(10, event.payment_token.decimals)} {event.payment_token.symbol} by {event.winner_account.address} 🎲 💀 🎲 #skulliesgmi"
+	return f"{time.mktime(event.transaction.timestamp.timetuple())} || {event.asset.name} was summoned for {event.total_price / pow(10, event.payment_token.decimals)} {event.payment_token.symbol} by {event.winner_account.address} 🎲 💀 🎲 #skulliesgmi"
 
-# Authenticate to Twitter
-# auth = tweepy.OAuthHandler("XXXX", "XXXX")
-# auth.set_access_token("XXXX", "XXXX")
 
-# # Create API object
-# api = tweepy.API(auth)
-# last_tweeted = api.user_timeline(count=1)[0].created_at
+def get_last_tweeted_event() -> datetime:
+	timestamp_str = get_cache(LAST_TIMESTAMP)
+	return datetime.fromisoformat(timestamp_str) if timestamp_str else None
 
-# for t in asset_events:
-# 	print(t);
-	# #for i in range(3):
-	# 	ts = t['date'].strip()
-	# 	print(ts)
-	# 	post = "ago" in ts
-	# 	if not post:
-	# 		ts = datetime.datetime.strptime(ts, '%B %d %Y')
-	# 		print(ts, last_tweeted)
-	# 		post = last_tweeted < ts
+def set_last_tweeted_event(event: Event):
+	set_cache(LAST_TIMESTAMP, str(event.transaction.timestamp))
 
-	# 	if post:	
-	# 		try:
-	# 			# Create a tweet
-	# 			api.update_status(f"{t['title']} by {t['artist']} is {t['tag'].upper()} on @Pitchfork. {t['title:link']} #{t['artist'].replace(' ','')} #pitchfork #bestnewmusic")
-	# 		except tweepy.TweepError:
-	# 			print('No update.')
+
+def post_tweet(event: Event):
+	twitter = get_twitter()
+	try:
+		# Create a tweet
+		twitter.update_status(get_event_string(event))
+	except tweepy.TweepError:
+		print('No update.')
+

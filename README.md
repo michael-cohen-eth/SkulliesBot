@@ -10,6 +10,13 @@ Everything is hosted on Heroku, with a Flask app.
 A detailed description of the project can be found [on Medium](https://medium.com/analytics-vidhya/building-a-twitter-bot-with-any-data-using-dashblock-and-tweepy-fd2b9f7ff5fc).
 
 
+### Development Setup
+- `pipenv install`
+
+- `pipenv shell`
+
+- `python app.py`
+
 ## Hosting 
 
 The template used to host the Flask app on Heroku comes from:
