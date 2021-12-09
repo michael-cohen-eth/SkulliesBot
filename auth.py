@@ -14,7 +14,7 @@ def get_auth() -> Tuple[Optional[str], Optional[str]]:
 	return get_cache(OAUTH_TOKEN), get_cache(OAUTH_SECRET)
 
 
-def get_twitter(self):
+def get_twitter():
 	token, secret = get_auth()
 	if not token or not secret:
 		raise "No auth set, can't tweet"
