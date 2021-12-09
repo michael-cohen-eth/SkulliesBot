@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Collection, List, Optional
+from typing import Collection, Optional
 
 
 

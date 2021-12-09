@@ -1,7 +1,4 @@
 from typing import Optional, Tuple
-import datetime
-import os
-import redis
 import tweepy
 
 from utils import get_cache, get_env_key, set_cache

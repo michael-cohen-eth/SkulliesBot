@@ -3,8 +3,8 @@ import tweepy
 import requests
 from datetime import datetime
 import os
-from auth import get_auth, get_twitter
-from serializers import Event, Asset
+from auth import get_twitter
+from serializers import Event
 from utils import get_env_key, get_cache, set_cache
 import time
 

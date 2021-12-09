@@ -1,12 +1,12 @@
 {
-  "name": "BotPitchfork",
-  "description": "BotPitchfork, a Pitchfork Twitter bot",
+  "name": "SkullyTweetBot",
+  "description": "SkullyTweetBot, a Twitter bot for the SkullyTweetBot",
   "keywords": [
     "flask",
     "python",
     "twitter",
     "bot"
   ],
-  "repository": "https://github.com/rob-med/BotPitchfork",
+  "repository": "https://github.com/michael-cohen-eth/SkulliesBot",
   
 }

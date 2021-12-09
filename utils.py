@@ -1,5 +1,4 @@
 from typing import Optional
-import datetime
 import os
 import redis
 
