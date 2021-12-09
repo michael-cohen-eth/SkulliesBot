@@ -38,7 +38,7 @@ def get_asset_events(since: Optional[datetime] = None):
 	return serialized
 
 def get_event_string(event: Event):
-	return f"{time.mktime(event.transaction.timestamp.timetuple())} || {event.asset.name} was summoned for {event.total_price / pow(10, event.payment_token.decimals)} {event.payment_token.symbol} by {event.winner_account.address} 🎲 💀 🎲 #skulliesgmi"
+	return f"{event.asset.name} was summoned for {event.total_price / pow(10, event.payment_token.decimals)} {event.payment_token.symbol} by {event.winner_account.address} 🎲 💀 🎲 #skulliesgmi"
 
 
 def get_last_tweeted_event() -> datetime:
