@@ -3,13 +3,17 @@ from pytz import utc
 
 from post import do_tweets
 from utils import get_env_key
+from queue import q
 
 sched = BackgroundScheduler(timezone=utc)
 
 @sched.scheduled_job('interval', hours=2)
 def timed_job():
-	print('Starting tweet job...')
-	if get_env_key("SCHEDULER_ENABLED", "true") != "true":
+	print('Enqueuing tweet job...')
+	q.enqueue(publish_tweets_job)
+
+def publish_tweets_job():
+	if not get_is_enabled():
 		print("Scheduler disabled...")
 		return
 	event_strings = do_tweets()
@@ -18,7 +22,6 @@ def timed_job():
 			print(event)
 	else:
 		print("No new events. Sleeping...")
-
 
 def get_is_enabled() -> bool:
 	return sched.running
