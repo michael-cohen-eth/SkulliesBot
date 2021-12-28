@@ -18,6 +18,7 @@ oauth2 = "*"
 httplib2 = "*"
 redis = "==4.0.2"
 APScheduler = "==3.8.1"
+rq = "==1.10.1"
 
 
 [dev-packages]
