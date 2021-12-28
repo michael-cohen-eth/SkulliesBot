@@ -1,6 +1,7 @@
 from typing import Optional
 import os
 import redis
+from rq import Queue
 
 
 def get_env_key(key, default: Optional[str] = None) -> Optional[str]:
@@ -17,3 +18,4 @@ def get_cache(key) -> Optional[str]:
 def get_cache_int(key) -> Optional[int]:
 	return int(get_cache(key)) if get_cache(key) else None
 	
+q = Queue(connection=cache)

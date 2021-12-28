@@ -1,7 +1,8 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import utc
+from post import do_tweets
 
-from queue import enqueue_job
+from utils import q
 
 sched = BackgroundScheduler(timezone=utc)
 
@@ -12,6 +13,18 @@ def timed_job():
 		enqueue_job()
 	else:
 		print("Scheduler disabled...")
+
+
+def enqueue_job():
+	q.enqueue(publish_tweets_job)
+
+def publish_tweets_job():
+	event_strings = do_tweets()
+	if len(event_strings) > 0:
+		for event in event_strings:
+			print(event)
+	else:
+		print("No new events. Sleeping...")
 
 def get_is_enabled() -> bool:
 	return sched.running
