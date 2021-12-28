@@ -25,11 +25,7 @@ def get_asset_events(since: Optional[int] = None):
 	serialized = []
 	for event in asset_events:
 		serialized.append(Event.parse_obj(event))
-		# print(f"raw: {event}")
-	# events = any(event for event in serialized if event.asset.name == "Skullies GMI")
-	# events = any(event for event in serialized)
-	# for event in serialized:
-	# 	print(event)
+
 	serialized.sort(key=lambda x: x.transaction.time_occurred)
 
 	return serialized
@@ -69,6 +65,13 @@ def post_tweet(event: Event):
 def do_tweets() -> List[str]:
 	since = get_last_tweeted_event()
 	events = get_asset_events(since=since)
+	event_strings = [get_event_string(event) for event in events]
+	for event in events:
+		post_tweet(event)
+	return event_strings
+
+def backfill_tweets():
+	events = get_asset_events()
 	event_strings = [get_event_string(event) for event in events]
 	for event in events:
 		post_tweet(event)

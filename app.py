@@ -7,6 +7,7 @@ import urllib.error
 import json
 from auth import get_name, set_auth, set_name
 from clock import set_is_enabled, get_is_enabled
+from post import backfill_tweets
 
 app = Flask(__name__)
 
@@ -158,6 +159,15 @@ def disable():
     if name is None:
         name = ""
     return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
+
+
+@app.route('/backfill', methods=['GET'])
+def backfill():
+    name = get_name()
+    tweets = backfill_tweets()
+    if name is None:
+        name = ""
+    return render_template('backfill.html', name=name, tweets=tweets, access_token_url=access_token_url)
 
 @app.errorhandler(500)
 def internal_server_error(e):
