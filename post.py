@@ -9,8 +9,6 @@ from utils import get_cache_int, get_env_key, set_cache
 LAST_TIMESTAMP = "last_tweeted_event"
 
 def get_asset_events(since: Optional[int] = None):
-	# url = "https://api.opensea.io/api/v1/events?collection_slug=mutant-ape-yacht-club&event_type=successful&only_opensea=false&offset=0&limit=60"
-
 	url = "https://api.opensea.io/api/v1/events?collection_slug=skulliesgmi&event_type=successful&only_opensea=false&offset=0&limit=60"
 	if since:
 		occured_after = f"&occurred_after={since}"

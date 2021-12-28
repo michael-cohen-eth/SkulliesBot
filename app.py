@@ -5,8 +5,8 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import json
-from auth import set_auth
-from post import do_tweets, get_asset_events, get_event_string, get_last_tweeted_event, post_tweet
+from auth import get_name, set_auth, set_name
+from clock import set_is_enabled, get_is_enabled
 
 app = Flask(__name__)
 
@@ -22,12 +22,6 @@ app.config['APP_CONSUMER_KEY'] = os.getenv(
     'TWAUTH_APP_CONSUMER_KEY', 'API_Key_from_Twitter')
 app.config['APP_CONSUMER_SECRET'] = os.getenv(
     'TWAUTH_APP_CONSUMER_SECRET', 'API_Secret_from_Twitter')
-
-# alternatively, add your key and secret to config.cfg
-# config.cfg should look like:
-# APP_CONSUMER_KEY = 'API_Key_from_Twitter'
-# APP_CONSUMER_SECRET = 'API_Secret_from_Twitter'
-# app.config.from_pyfile('config.cfg', silent=True)
 
 oauth_store = {}
 name = ''
@@ -128,6 +122,7 @@ def callback():
     statuses_count = response['statuses_count']
     followers_count = response['followers_count']
     name = response['name']
+    set_name(name)
 
     # don't keep this token and secret in memory any longer
     del oauth_store[oauth_token]
@@ -136,11 +131,31 @@ def callback():
                            friends_count=friends_count, statuses_count=statuses_count, followers_count=followers_count, access_token_url=access_token_url)
 
 
-@app.route('/do', methods=['GET'])
-def do():
-    event_strings = do_tweets()
-    return render_template('do.html', screen_name=screen_name, user_id=user_id, name=name,
-                           events=event_strings, access_token_url=access_token_url)
+@app.route('/home', methods=['GET'])
+def home():
+    name = get_name()
+    bot_enabled = get_is_enabled()
+    if name is None:
+        name = ""
+    return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
+
+@app.route('/enable', methods=['POST'])
+def enable():
+    name = get_name()
+    set_is_enabled(True)
+    bot_enabled = get_is_enabled()
+    if name is None:
+        name = ""
+    return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
+
+@app.route('/disable', methods=['POST'])
+def disable():
+    name = get_name()
+    set_is_enabled(False)
+    bot_enabled = get_is_enabled()
+    if name is None:
+        name = ""
+    return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
 
 @app.errorhandler(500)
 def internal_server_error(e):

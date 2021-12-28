@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block containercontent %}
+<h2>Home</h2>
+<p>Welcome, <strong>{{ name }}</strong>!</p>
+{% if bot_enabled %}
+	<a href="/enable" class="btn btn-small btn-primary">Enable SkullyBot</a>
+{% else %}
+	<a href="/disable" class="btn btn-small btn-primary">Disable SkullyBot</a>
+{% endif %}
+<hr>
+{% endblock %}

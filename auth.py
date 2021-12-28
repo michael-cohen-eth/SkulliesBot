@@ -5,6 +5,7 @@ from utils import get_cache, get_env_key, set_cache
 
 OAUTH_TOKEN = "oauth_token"
 OAUTH_SECRET = "oauth_secret"
+NAME = "TWITTER_NAME"
 
 def set_auth(token: str, secret: str):
 	set_cache(OAUTH_TOKEN, token)
@@ -26,3 +27,9 @@ def get_twitter():
 	# Create API object
 	twitter = tweepy.API(auth)
 	return twitter
+
+def set_name(name: str):
+	set_cache(NAME, name)
+
+def get_name() -> Optional[str]:
+	return get_cache(NAME)
