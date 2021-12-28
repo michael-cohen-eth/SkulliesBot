@@ -18,7 +18,6 @@ def timed_job():
 	else:
 		print("No new events. Sleeping...")
 
-sched.start()
 
 def get_is_enabled() -> bool:
 	return sched.running
@@ -28,3 +27,5 @@ def set_is_enabled(enabled: bool):
 		sched.resume()
 	else:
 		sched.pause()
+
+sched.start()
