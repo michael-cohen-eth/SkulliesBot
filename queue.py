@@ -1,4 +1,4 @@
 from rq import Queue
-from worker import conn
+from utils import cache
 
-q = Queue(connection=conn)
+q = Queue(connection=cache)

@@ -2,7 +2,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from pytz import utc
 
 from post import do_tweets
-from utils import get_env_key
 from queue import q
 
 sched = BackgroundScheduler(timezone=utc)
