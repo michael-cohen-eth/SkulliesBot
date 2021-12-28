@@ -1,10 +1,9 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from post import do_tweets
-from utils import get_cache, get_env_key, set_cache
+from utils import get_env_key
 
 sched = BlockingScheduler()
-SKULLYBOT_ENABLED = "SKULLYBOT_ENABLED"
 
 @sched.scheduled_job('interval', hours=2)
 def timed_job():
@@ -19,13 +18,13 @@ def timed_job():
 	else:
 		print("No new events. Sleeping...")
 
+sched.start()
 
 def get_is_enabled() -> bool:
-	return get_cache(SKULLYBOT_ENABLED) == "true"
+	return sched.running
 
 def set_is_enabled(enabled: bool):
 	if enabled:
-		sched.start()
+		sched.resume()
 	else:
-		sched.shutdown()
-	set_cache(SKULLYBOT_ENABLED, "true" if enabled else "false")
+		sched.pause()
