@@ -11,5 +11,11 @@
 	</ol>
 </div>
 <p>Ready to get started?</p>
-<a href="/start" class="btn btn-small btn-success">Login</a>
+{% if logged_in %}
+	Already logged in! 
+	<a href="/home" class="btn btn-small btn-success">Go Home</a>
+{% else %}
+	Not logged in! 
+	<a href="/start" class="btn btn-small btn-success">Login</a>
+{% endif %}
 {% endblock %}

@@ -30,7 +30,9 @@ user_id = 0
 
 @app.route('/')
 def hello():
-    return render_template('index.html')
+    name = get_name()
+    logged_in = True if name is not None else False
+    return render_template('index.html', logged_in=logged_in, name=name)
 
 
 @app.route('/start')

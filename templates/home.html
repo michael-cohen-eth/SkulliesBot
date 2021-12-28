@@ -5,9 +5,9 @@
 <p>Welcome, <strong>{{ name }}</strong>!</p>
 <p>Bot enabled: <strong>{{ bot_enabled }}</strong></p>
 {% if bot_enabled %}
-	<a href="/enable" class="btn btn-small btn-primary">Enable SkullyBot</a>
-{% else %}
 	<a href="/disable" class="btn btn-small btn-primary">Disable SkullyBot</a>
+{% else %}
+	<a href="/enable" class="btn btn-small btn-primary">Enable SkullyBot</a>
 {% endif %}
 <hr>
 {% endblock %}
