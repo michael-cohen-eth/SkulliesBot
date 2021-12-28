@@ -6,7 +6,7 @@ import urllib.parse
 import urllib.error
 import json
 from functools import wraps
-from auth import get_logged_in, get_name, set_auth, set_name
+from auth import get_logged_in, get_name, set_auth, set_name, logout
 from clock import set_is_enabled, get_is_enabled
 from post import backfill_tweets
 
@@ -142,17 +142,18 @@ def callback():
     del oauth_store[oauth_token]
 
     return render_template('callback-success.html', screen_name=screen_name, user_id=user_id, name=name,
-                           friends_count=friends_count, statuses_count=statuses_count, followers_count=followers_count, access_token_url=access_token_url)
+                           friends_count=friends_count, statuses_count=statuses_count, followers_count=followers_count)
 
 
 @app.route('/home', methods=['GET'])
 @login_required
 def home():
+    logged_in = get_logged_in()
     name = get_name()
     bot_enabled = get_is_enabled()
     if name is None:
         name = ""
-    return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
+    return render_template('home.html', logged_in=logged_in, name=name, bot_enabled=bot_enabled)
 
 @app.route('/enable', methods=['GET'])
 @login_required
@@ -160,9 +161,10 @@ def enable():
     name = get_name()
     set_is_enabled(True)
     bot_enabled = get_is_enabled()
+    logged_in = get_logged_in()
     if name is None:
         name = ""
-    return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
+    return render_template('home.html', logged_in=logged_in, name=name, bot_enabled=bot_enabled)
 
 @app.route('/disable', methods=['GET'])
 @login_required
@@ -170,9 +172,10 @@ def disable():
     name = get_name()
     set_is_enabled(False)
     bot_enabled = get_is_enabled()
+    logged_in = get_logged_in()
     if name is None:
         name = ""
-    return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
+    return render_template('home.html', logged_in=logged_in, name=name, bot_enabled=bot_enabled)
 
 
 @app.route('/backfill', methods=['GET'])
@@ -180,9 +183,16 @@ def disable():
 def backfill():
     name = get_name()
     tweets = backfill_tweets()
+    logged_in = get_logged_in()
     if name is None:
         name = ""
-    return render_template('backfill.html', name=name, tweets=tweets, access_token_url=access_token_url)
+    return render_template('backfill.html', logged_in=logged_in, name=name, tweets=tweets)
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    logout()
+    return render_template('logout-success.html')
+
 
 @app.errorhandler(500)
 def internal_server_error(e):

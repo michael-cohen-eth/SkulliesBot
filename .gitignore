@@ -3,3 +3,5 @@ build
 *~
 *.pyc
 *.env*
+launch.json
+settings.json

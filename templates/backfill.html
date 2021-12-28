@@ -11,4 +11,7 @@
 </ul>
 <a href="/Home" class="btn btn-small btn-primary">Go back Home</a>
 <hr>
+{% if logged_in %}
+	<a href="/logout" class="btn btn-small btn-danger">Logout</a>
+{% endif %}
 {% endblock %}
