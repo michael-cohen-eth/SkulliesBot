@@ -1,9 +1,10 @@
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+from pytz import utc
 
 from post import do_tweets
 from utils import get_env_key
 
-sched = BlockingScheduler()
+sched = BackgroundScheduler(timezone=utc)
 
 @sched.scheduled_job('interval', hours=2)
 def timed_job():
