@@ -35,4 +35,4 @@ def set_is_enabled(enabled: bool):
 	else:
 		sched.pause()
 
-sched.start()
+sched.start(paused=True)

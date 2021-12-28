@@ -139,7 +139,7 @@ def home():
         name = ""
     return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
 
-@app.route('/enable', methods=['POST'])
+@app.route('/enable', methods=['GET'])
 def enable():
     name = get_name()
     set_is_enabled(True)
@@ -148,7 +148,7 @@ def enable():
         name = ""
     return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
 
-@app.route('/disable', methods=['POST'])
+@app.route('/disable', methods=['GET'])
 def disable():
     name = get_name()
     set_is_enabled(False)
