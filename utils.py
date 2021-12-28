@@ -9,6 +9,9 @@ def get_env_key(key, default: Optional[str] = None) -> Optional[str]:
 
 cache = redis.from_url(get_env_key("REDIS_URL"), decode_responses=True)
 
+def del_cache(key):
+	cache.delete(key)
+
 def set_cache(key, value):
 	cache.set(key, value)
 

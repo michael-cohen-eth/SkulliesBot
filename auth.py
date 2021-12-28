@@ -1,7 +1,7 @@
 from typing import Optional, Tuple
 import tweepy
 
-from utils import get_cache, get_env_key, set_cache
+from utils import get_cache, get_env_key, set_cache, del_cache
 
 OAUTH_TOKEN = "oauth_token"
 OAUTH_SECRET = "oauth_secret"
@@ -33,3 +33,12 @@ def set_name(name: str):
 
 def get_name() -> Optional[str]:
 	return get_cache(NAME)
+
+def get_logged_in() -> bool:
+	token, secret = get_auth()
+	return token is not None and secret is not None
+
+def logout():
+	del_cache(OAUTH_TOKEN)
+	del_cache(OAUTH_SECRET)
+	del_cache(NAME)

@@ -1,12 +1,11 @@
 {% extends "base.html" %}
-{% block title %}error{% endblock %}
+{% block title %}Not logged in{% endblock %}
 {% block containercontent %}
-<h2>error</h2>
+<h2>Not logged in</h2>
 <div class="panel panel-danger">
 	<div class="panel-heading">
-		<h3 class="panel-title">Yikes, something went wrong! Reach out to Michael if this continues</h3>
+		<h3 class="panel-title">Looks like you aren't logged in</h3>
 	</div>
-	<div class="panel-body">{{ error_message }}</div>
 	<a href="/" class="btn btn-small btn-primary">Let's go back to sign in</a>
 </div>
 {% endblock %}

@@ -5,7 +5,8 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import json
-from auth import get_name, set_auth, set_name
+from functools import wraps
+from auth import get_logged_in, get_name, set_auth, set_name
 from clock import set_is_enabled, get_is_enabled
 from post import backfill_tweets
 
@@ -31,9 +32,19 @@ user_id = 0
 
 @app.route('/')
 def hello():
-    name = get_name()
-    logged_in = True if name is not None else False
-    return render_template('index.html', logged_in=logged_in, name=name)
+    logged_in = get_logged_in()
+    return render_template('index.html', logged_in=logged_in)
+
+def login_required(f):
+    @wraps(f)
+    def wrapped_view(**kwargs):
+        logged_in = get_logged_in()
+        if not logged_in:
+            return render_template('not_logged_in.html') 
+
+        return f(**kwargs)
+
+    return wrapped_view
 
 
 @app.route('/start')
@@ -135,6 +146,7 @@ def callback():
 
 
 @app.route('/home', methods=['GET'])
+@login_required
 def home():
     name = get_name()
     bot_enabled = get_is_enabled()
@@ -143,6 +155,7 @@ def home():
     return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
 
 @app.route('/enable', methods=['GET'])
+@login_required
 def enable():
     name = get_name()
     set_is_enabled(True)
@@ -152,6 +165,7 @@ def enable():
     return render_template('home.html', name=name, bot_enabled=bot_enabled, access_token_url=access_token_url)
 
 @app.route('/disable', methods=['GET'])
+@login_required
 def disable():
     name = get_name()
     set_is_enabled(False)
@@ -162,6 +176,7 @@ def disable():
 
 
 @app.route('/backfill', methods=['GET'])
+@login_required
 def backfill():
     name = get_name()
     tweets = backfill_tweets()
