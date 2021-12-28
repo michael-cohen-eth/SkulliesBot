@@ -6,7 +6,7 @@ import urllib.parse
 import urllib.error
 import json
 from functools import wraps
-from auth import get_logged_in, get_name, set_auth, set_name, logout
+from auth import get_logged_in, get_name, set_auth, set_name, logout_of_app
 from clock import set_is_enabled, get_is_enabled
 from post import backfill_tweets
 
@@ -190,7 +190,8 @@ def backfill():
 
 @app.route('/logout', methods=['GET'])
 def logout():
-    logout()
+    logout_of_app()
+    set_is_enabled(False)
     return render_template('logout-success.html')
 
 

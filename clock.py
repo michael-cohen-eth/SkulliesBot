@@ -38,6 +38,6 @@ def set_is_enabled(enabled: bool):
 	if enabled:
 		sched.resume()
 	else:
-		sched.pause()
+		sched.shutdown()
 
 sched.start(paused=True)

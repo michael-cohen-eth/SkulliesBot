@@ -38,7 +38,7 @@ def get_logged_in() -> bool:
 	token, secret = get_auth()
 	return token is not None and secret is not None
 
-def logout():
+def logout_of_app():
 	del_cache(OAUTH_TOKEN)
 	del_cache(OAUTH_SECRET)
 	del_cache(NAME)
