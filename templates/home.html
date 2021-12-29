@@ -3,6 +3,7 @@
 {% block containercontent %}
 <h2>Home</h2>
 <p>Welcome, <strong>{{ name }}</strong>!</p>
+<h3>Automated bot:</h3>
 <p>Bot scheduler enabled: <strong>{{ bot_enabled }}</strong></p>
 {% if bot_enabled %}
 	<a href="/disable" class="btn btn-small btn-warning">Disable SkullyBot</a>
@@ -11,7 +12,7 @@
 {% endif %}
 <br />
 <br />
-<p>Backfill all previous sales: </p>
+<h3>Backfill all previous sales: </h3>
 <a href="/backfill" class="btn btn-small btn-primary">Backfill</a>
 <hr>
 {% if logged_in %}
