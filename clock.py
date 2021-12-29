@@ -33,6 +33,8 @@ def publish_tweets_job():
 		print("No new events. Sleeping...")
 
 def get_is_enabled() -> bool:
+	print(f"sched.state {sched.state}")
+	print(f"sched.running {sched.running}")
 	return sched.running
 
 def set_is_enabled(enabled: bool):
