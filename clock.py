@@ -1,4 +1,5 @@
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.base import STATE_PAUSED, STATE_RUNNING, STATE_STOPPED
 from pytz import utc
 from auth import get_logged_in
 from post import do_tweets
@@ -36,8 +37,14 @@ def get_is_enabled() -> bool:
 
 def set_is_enabled(enabled: bool):
 	if enabled:
-		sched.resume()
+		if sched.state == STATE_STOPPED:
+			sched.start()
+		else:
+			sched.resume()
 	else:
-		sched.shutdown()
+		if sched.state == STATE_RUNNING:
+			sched.pause()
+		elif sched.state != STATE_STOPPED:
+			sched.shutdown()
 
 sched.start(paused=True)
