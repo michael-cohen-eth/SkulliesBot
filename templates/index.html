@@ -13,9 +13,11 @@
 <p>Ready to get started?</p>
 {% if logged_in %}
 	Already logged in! 
+	<br />
 	<a href="/home" class="btn btn-small btn-success">Go Home</a>
 {% else %}
 	Not logged in! 
+	<br />
 	<a href="/start" class="btn btn-small btn-success">Login</a>
 {% endif %}
 {% if logged_in %}
